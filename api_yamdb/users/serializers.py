@@ -5,6 +5,7 @@ from .models import User
 
 class SignUpSerializer(serializers.ModelSerializer):
     """Сериализатор регистрации пользователей и выдачи токенов"""
+
     email = serializers.EmailField(
         max_length=254,
     )
@@ -17,24 +18,24 @@ class SignUpSerializer(serializers.ModelSerializer):
         model = User
 
     def validate(self, data):
-        email = data['email']
-        username = data['username']
-        if username != 'me':
-            if User.objects.filter(
-                username=username
-            ).exists() or User.objects.filter(email=email).exists():
+        email = data["email"]
+        username = data["username"]
+        if username != "me":
+            if (
+                User.objects.filter(username=username).exists()
+                or User.objects.filter(email=email).exists()
+            ):
                 raise serializers.ValidationError(
-                    'Пользователь с таким именем или email уже существует')
+                    "Пользователь с таким именем или email уже существует"
+                )
             return data
-        raise serializers.ValidationError(
-            'Недопустимое имя пользователя')
+        raise serializers.ValidationError("Недопустимое имя пользователя")
 
 
 class ConfirmationCodeSerializer(serializers.Serializer):
     """Сериализатор получения JWT-токена"""
-    username = serializers.CharField(
-        required=True
-    )
+
+    username = serializers.CharField(required=True)
     confirmation_code = serializers.CharField(required=True)
 
 
@@ -44,8 +45,14 @@ class AdminSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        fields = ("username", "email", "first_name",
-                  "last_name", "bio", "role")
+        fields = (
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "bio",
+            "role",
+        )
         model = User
 
 
@@ -55,7 +62,13 @@ class UserSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        fields = ("username", "email", "first_name",
-                  "last_name", "bio", "role")
+        fields = (
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "bio",
+            "role",
+        )
         model = User
-        read_only_fields = ('role',)
+        read_only_fields = ("role",)
