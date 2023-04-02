@@ -1,10 +1,9 @@
 from django.db.models import Avg
-from django.shortcuts import get_object_or_404
 from django.forms import ValidationError
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import serializers
-
-from reviews.models import Comment, Review, Genre, Category, Title
+from reviews.models import Category, Comment, Genre, Review, Title
 
 
 class CommentSerializer(serializers.ModelSerializer):
