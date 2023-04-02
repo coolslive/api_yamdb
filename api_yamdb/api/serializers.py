@@ -83,14 +83,14 @@ class ReviewSerializer(serializers.ModelSerializer):
     """Сериалайзер для отзывов."""
     author = serializers.SlugRelatedField(
         slug_field='username',
-        read_only=True,
+        read_only=True
     )
     title = serializers.SlugRelatedField(
         slug_field='name',
-        read_only=True,
+        read_only=True
     )
 
-    def validate_reviews_number(self, data):
+    def validate(self, data):
         """
         Проверяет количество отзывов на произведение
         от одного пользователя.
@@ -103,7 +103,7 @@ class ReviewSerializer(serializers.ModelSerializer):
                     title=title,
                     author=request.user).exists():
                 raise ValidationError(
-                    'Допустимо не более 1 отзыва на произведение')
+                    'Вы уже оставляли отзыв к этому произведению!')
         return data
 
     def validate_score(self, score):
@@ -114,5 +114,5 @@ class ReviewSerializer(serializers.ModelSerializer):
         return score
 
     class Meta:
-        fields = ('id', 'text', 'author', 'score', 'pub_date')
+        fields = ('id', 'text', 'author', 'score', 'pub_date', 'title')
         model = Review

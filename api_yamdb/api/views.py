@@ -45,7 +45,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet):
     """Вьюсет для отзывов."""
     pagination_class = LimitOffsetPagination
-    permission_classes = (IsAuthorAdminModeratorOrReadOnly)
+    permission_classes = (IsAuthorAdminModeratorOrReadOnly,)
     serializer_class = ReviewSerializer
 
     def perform_create(self, serializer):

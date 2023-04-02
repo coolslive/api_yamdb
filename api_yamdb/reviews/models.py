@@ -20,7 +20,7 @@ class Category(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Сатегория'
+        verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
 
@@ -125,6 +125,12 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Отзыв'
         ordering = ('-pub_date',)
+        constraints = (
+            models.UniqueConstraint(
+                fields=['author', 'title'],
+                name='unique_author_title'
+            ),
+        )
 
 
 class Comment(models.Model):
