@@ -3,7 +3,7 @@ from django.forms import ValidationError
 from django.utils import timezone
 from rest_framework import serializers
 
-from reviews.models import Comment, Review, Genre, Category, Title
+from api.reviews.models import Comment, Review, Genre, Category, Title
 
 
 class CommentSerializer(serializers.ModelSerializer):

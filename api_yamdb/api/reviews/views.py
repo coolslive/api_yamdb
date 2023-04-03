@@ -4,17 +4,17 @@ from django.db.models import Avg
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import mixins
 from rest_framework import filters
-from .filters import TitleFilter
+from api.reviews.filters import TitleFilter
 
-from users.permissions import (IsAuthorAdminModeratorOrReadOnly,
-                               IsAdminOrReadOnly)
-from reviews.models import Review, Genre, Category, Title
-from .serializers import (ReviewSerializer,
-                          CommentSerializer,
-                          GenreSerializer,
-                          CategorySerializer,
-                          TitleSerializer,
-                          TitleCreateSerializer)
+from api.users.permissions import (IsAuthorAdminModeratorOrReadOnly,
+                                   IsAdminOrReadOnly)
+from api.reviews.models import Review, Genre, Category, Title
+from api.reviews.serializers import (ReviewSerializer,
+                                     CommentSerializer,
+                                     GenreSerializer,
+                                     CategorySerializer,
+                                     TitleSerializer,
+                                     TitleCreateSerializer)
 
 
 class CreateListDestroyViewSet(mixins.CreateModelMixin,
