@@ -1,5 +1,6 @@
 from rest_framework import filters, mixins, viewsets
 from rest_framework.pagination import LimitOffsetPagination
+from django.db.models import Avg
 
 from django.shortcuts import get_object_or_404
 
@@ -88,7 +89,9 @@ class CategoryViewSet(CreateListDestroyViewSet):
 class TitleViewSet(viewsets.ModelViewSet):
     """Вьюсет для произведений."""
 
-    queryset = Title.objects.all()
+    queryset = Title.objects.annotate(
+        rating=Avg('reviews__score')
+    ).order_by('id')
     serializer_class = TitleSerializer
     pagination_class = LimitOffsetPagination
     filter_class = filterset_class = TitleFilter
