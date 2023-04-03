@@ -1,4 +1,3 @@
-from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django.forms import ValidationError
 from django.utils import timezone
@@ -38,11 +37,10 @@ class TitleSerializer(serializers.ModelSerializer):
     """Сериалайзер для произведений."""
     genre = GenreSerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
-    rating = serializers.SerializerMethodField()
+    rating = serializers.IntegerField()
 
-    def get_rating(self, obj):
-        rating = obj.reviews.aggregate(Avg('score')).get('score__avg')
-        return rating if not rating else round(rating, 0)
+    def get_rating(self, rating):
+        return rating
 
     class Meta:
         fields = (

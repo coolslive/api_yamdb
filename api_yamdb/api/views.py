@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
+from django.db.models import Avg
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import mixins
 from rest_framework import filters
@@ -33,7 +34,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         """Получает все комментарии к отзыву."""
         review_id = self.kwargs.get('review_id')
         review = get_object_or_404(Review, id=review_id)
-        return review.comments.all()
+        return review.comments.select_related('author')
 
     def perform_create(self, serializer):
         """Создает новый комментарий к отзыву."""
@@ -56,7 +57,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Создает новый отзыв."""
         title_id = self.kwargs.get('title_id')
-        review_queryset = Review.objects.filter(title=title_id)
+        review_queryset = Review.objects.filter(
+            title=title_id).select_related('author')
         return review_queryset
 
 
@@ -82,7 +84,9 @@ class CategoryViewSet(CreateListDestroyViewSet):
 
 class TitleViewSet(viewsets.ModelViewSet):
     """Вьюсет для произведений."""
-    queryset = Title.objects.all()
+    queryset = Title.objects.select_related(
+        'category').prefetch_related('genre').annotate(
+        rating=Avg('reviews__score'))
     serializer_class = TitleSerializer
     pagination_class = LimitOffsetPagination
     filter_class = filterset_class = TitleFilter
