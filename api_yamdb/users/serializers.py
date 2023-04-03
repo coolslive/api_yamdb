@@ -17,19 +17,19 @@ class SignUpSerializer(serializers.ModelSerializer):
         fields = ("username", "email")
         model = User
 
-    def validate(self, data):
-        email = data["email"]
-        username = data["username"]
-        if username != "me":
-            if (
-                User.objects.filter(username=username).exists()
-                or User.objects.filter(email=email).exists()
-            ):
-                raise serializers.ValidationError(
-                    "Пользователь с таким именем или email уже существует"
-                )
-            return data
-        raise serializers.ValidationError("Недопустимое имя пользователя")
+def validate(self, data):
+    email = data["email"]
+    username = data["username"]
+    if username != "me":
+        if (
+            User.objects.filter(username=username).exists()
+            or User.objects.filter(email=email).exists()
+        ):
+            raise serializers.ValidationError(
+                "Пользователь с таким именем или email уже существует"
+            )
+        return data
+    raise serializers.ValidationError("Недопустимое имя пользователя")
 
 
 class ConfirmationCodeSerializer(serializers.Serializer):

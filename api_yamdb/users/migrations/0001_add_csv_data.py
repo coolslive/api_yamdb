@@ -1,7 +1,9 @@
 import csv
 import os
-from django.db import migrations
+
 from django.conf import settings
+from django.db import migrations
+
 
 def load_initial_user_data(apps, schema_editor):
     data_dir = os.path.join(settings.BASE_DIR, 'static', 'data')
