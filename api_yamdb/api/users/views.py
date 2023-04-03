@@ -33,7 +33,7 @@ def signup(request):
             message=(
                 f'Код подтверждения для {user.username}:{confirmation_code}.'
             ),
-            from_email=None,
+
             recipient_list=[user.email],
         )
         message = ('Данный пользователь уже зарегистрирован.'
