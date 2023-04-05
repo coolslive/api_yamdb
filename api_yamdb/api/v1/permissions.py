@@ -9,13 +9,11 @@ class IsAdmin(permissions.BasePermission):
     позволяющее все действия Администраторам
     при любых запросах.
     """
+
     def has_permission(self, request, view):
-        return (
-            request.user.is_authenticated
-            and (
-                request.user.role == User.ChoicesRole.ADMIN_ROLE
-                or request.user.is_superuser
-            )
+        return request.user.is_authenticated and (
+            request.user.role == User.ChoicesRole.ADMIN_ROLE
+            or request.user.is_superuser
         )
 
 
@@ -25,15 +23,13 @@ class IsAdminOrReadOnly(permissions.BasePermission):
     позволяющее редактировать объект администраторам и
     смотреть всем.
     """
+
     def has_permission(self, request, view):
-        return (
-            request.method in permissions.SAFE_METHODS
-            or (
-                request.user.is_authenticated
-                and (
-                    request.user.role == User.ChoicesRole.ADMIN_ROLE
-                    or request.user.is_superuser
-                )
+        return request.method in permissions.SAFE_METHODS or (
+            request.user.is_authenticated
+            and (
+                request.user.role == User.ChoicesRole.ADMIN_ROLE
+                or request.user.is_superuser
             )
         )
 
@@ -45,16 +41,21 @@ class IsAuthorAdminModeratorOrReadOnly(permissions.BasePermission):
     редактировать объект - владельцам, модераторам,
     администраторам.
     """
+
     def has_object_permission(self, request, view, obj):
-        return (request.method in permissions.SAFE_METHODS
-                or request.user.role == User.ChoicesRole.MODERATOR_ROLE
-                or request.user.role == User.ChoicesRole.ADMIN_ROLE
-                or request.user.is_superuser
-                or obj.author == request.user)
+        return (
+            request.method in permissions.SAFE_METHODS
+            or request.user.role == User.ChoicesRole.MODERATOR_ROLE
+            or request.user.role == User.ChoicesRole.ADMIN_ROLE
+            or request.user.is_superuser
+            or obj.author == request.user
+        )
 
     def has_permission(self, request, view):
-        return (request.method in permissions.SAFE_METHODS
-                or request.user.is_authenticated)
+        return (
+            request.method in permissions.SAFE_METHODS
+            or request.user.is_authenticated
+        )
 
 
 class IsAdminModeratorUser(permissions.BasePermission):

@@ -9,17 +9,17 @@ from reviews.models import (
 from users.models import User
 
 TABLES_DICT = {
-    User: 'users.csv',
-    Category: 'category.csv',
-    Genre: 'genre.csv',
-    Title: 'titles.csv',
-    Review: 'review.csv',
-    Comment: 'comments.csv',
+    User: "users.csv",
+    Category: "category.csv",
+    Genre: "genre.csv",
+    Title: "titles.csv",
+    Review: "review.csv",
+    Comment: "comments.csv",
 }
 
 
 class Command(BaseCommand):
-    help = 'Загрузка фикстур'
+    help = "Загрузка фикстур"
 
     @staticmethod
     def import_users_from_csv():
@@ -130,7 +130,9 @@ class Command(BaseCommand):
     @staticmethod
     def import_genre_titles_from_csv():
         """Импорт из CSV-файла в базу данных"""
-        with open(settings.BASE_DIR / "static/data/genre_title.csv", "rt") as f:
+        with open(
+            settings.BASE_DIR / "static/data/genre_title.csv", "rt"
+        ) as f:
             f.readline()
             obj_list = []
             for row in csv.reader(f, dialect="excel"):
