@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from django.db.models import Q
 from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -136,8 +137,8 @@ class SignUpSerializer(serializers.ModelSerializer):
         username = data['username']
         if username != 'me':
             if User.objects.filter(
-                username=username
-            ).exists() or User.objects.filter(email=email).exists():
+                Q(username=username) | Q(email=email)
+            ).exists():
                 raise serializers.ValidationError(
                     'Пользователь с таким именем или email уже существует')
             return data
