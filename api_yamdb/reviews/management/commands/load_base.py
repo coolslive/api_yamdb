@@ -1,12 +1,12 @@
 import csv
 
+from django.conf import settings
+from django.core.management import BaseCommand
+
 from reviews.models import (
     Category, Comment, Genre, GenreConnect, Review, Title,
 )
 from users.models import User
-
-from django.conf import settings
-from django.core.management import BaseCommand
 
 TABLES_DICT = {
     User: 'users.csv',
