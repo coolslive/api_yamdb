@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from api.users.models import User
+from users.models import User
 
 
 class IsAdmin(permissions.BasePermission):
@@ -54,3 +54,23 @@ class IsAuthorAdminModeratorOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         return (request.method in permissions.SAFE_METHODS
                 or request.user.is_authenticated)
+
+
+class IsAdminModeratorUser(permissions.BasePermission):
+    """Разрешение для пользователей с правами администратора, модератора
+    или юзера.
+    """
+
+    def has_permission(self, request, view):
+        return (
+            request.method in permissions.SAFE_METHODS
+            or request.user.is_authenticated
+        )
+
+    def has_object_permission(self, request, view, obj):
+        return (
+            request.method in permissions.SAFE_METHODS
+            or obj.author == request.user
+            or request.user.is_moderator
+            or request.user.is_admin
+        )

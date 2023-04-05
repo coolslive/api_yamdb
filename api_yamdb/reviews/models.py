@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from api.users.models import User
-from api.reviews.validators import max_value_current_year
+from users.models import User
+from api.v1.validators import max_value_current_year
 
 
 class Category(models.Model):

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from api.reviews.models import Genre, Category, Title
+from .models import Genre, Category, Title
 
 
 admin.site.register(Genre)
